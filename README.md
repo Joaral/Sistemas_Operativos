@@ -3,7 +3,7 @@ Actividades Sistemas Operativos
 SUBIR  
   
 Git status  
-Git add fitxer  
+Git add fitxer  o Git add -A .
 Git commit -m “missatge”  
 Git push origin main  
   

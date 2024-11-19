@@ -26,11 +26,16 @@ then
 fi 
 echo "6. CHECK OK FILE_NAME - Enviando OK_FILE_NAME"
 echo "OK_FILE_NAME" | nc localhost $PORT
+
+FILE_NAME=`nc -l $PORT`
+mkdir /home/enti/Sistemas_Operativos/server/$FILE_NAME
+
 DATA=`nc -l $PORT`
 
 if [ "$DATA" == "" ]
 then
 	echo "ERROR 3: ARCHIVO VACÍO"
+ 	rm -r /home/enti/Sistemas_Operativos/server/$FILE_NAME
 	echo "KO_ARCHIVO"
 	exit 3
 fi

@@ -15,7 +15,8 @@ then
 fi
 echo "OK"
 echo "5. ENVIO DE ARCHIVO"
-echo "FILE_NAME dragon.txt" | nc localhost $PORT
+FILENAME="dragon.txt"
+echo "FILE_NAME "$FILENAME | nc localhost $PORT
 DATA=`nc -l $PORT`
 echo "7. COMPROVANDO RESPUESTA"
 if [ "$DATA" != "OK_FILE_NAME" ]
@@ -25,7 +26,8 @@ then
 fi
 echo "OK"
 echo "8. ENVIO CONTENIDO ARCHIVO"
-cat client/dragon.txt | nc localhost $PORT
+echo $FILENAME | nc localhost $PORT
+cat client/$FILENAME | nc localhost $PORT
 DATA=`nc -l $PORT`
 echo "11. COMPROVANDO RESPUESTA"
 if [ "$DATA" != "OK_ARCHIVO_SAVED" ]

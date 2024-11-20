@@ -1,9 +1,18 @@
 #!/bin/bash
+if [ "$1" == "" ]
+then
+	echo "ERROR 0: No se ha indicado la direccion del servidor."
+	echo "Ejemplo:"
+	echo -e "\t$0 127.0.0.1" 
+	exit 0
+fi
+IP_SERVER=$1
+IP=`ip a |grep "scope global" |xargs |cut -d " " -f 2 | cut -d "/" -f 1`
 PORT="2022"
 echo "Cliente de Dragón magia Abuelita Miedo 2022"
 echo "1. ENVÍO DE CABECERA"
 
-echo "DMAM" | nc 127.0.0.1 $PORT
+echo "DMAM $IP" | nc $IP_SERVER $PORT
 DATA=`nc -l $PORT`
 # SI DATA ES DIFERENTE A OK_HEADER, MENSAJE
 # DE ERROR Y EXIT 1
@@ -16,7 +25,7 @@ fi
 echo "OK"
 echo "5. ENVIO DE ARCHIVO"
 FILENAME="dragon.txt"
-echo "FILE_NAME "$FILENAME | nc localhost $PORT
+echo "FILE_NAME "$FILENAME | nc $IP_SERVER $PORT
 DATA=`nc -l $PORT`
 echo "7. COMPROVANDO RESPUESTA"
 if [ "$DATA" != "OK_FILE_NAME" ]
@@ -26,8 +35,8 @@ then
 fi
 echo "OK"
 echo "8. ENVIO CONTENIDO ARCHIVO"
-echo $FILENAME | nc localhost $PORT
-cat client/$FILENAME | nc localhost $PORT
+echo $FILENAME | nc $IP_SERVER $PORT
+cat client/$FILENAME | nc $IP_SERVER $PORT
 DATA=`nc -l $PORT`
 echo "11. COMPROVANDO RESPUESTA"
 if [ "$DATA" != "OK_ARCHIVO_SAVED" ]

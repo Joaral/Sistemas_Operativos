@@ -32,7 +32,7 @@ MD5SUM_GENERATED=$(echo -n "$FILE_NAME" | md5sum | cut -d ' ' -f 1)
 
 if [ "$MD5SUM_RECEIVED" != "$MD5SUM_GENERATED" ]
 then
-    echo "ERROR 3: El MD5 del nombre de archivo es incorrecto"
+    echo "ERROR 3: El MD5 es incorrecto"
     echo "KO_FILE_NAME_MD5" | nc $IP $PORT
     exit 3
 fi
@@ -47,7 +47,7 @@ DATA=`nc -l $PORT`
 
 if [ "$DATA" == "" ]
 then
-	echo "ERROR 3: ARCHIVO VACÍO"
+	echo "ERROR 4: ARCHIVO VACÍO"
  	rm -r /home/enti/Sistemas_Operativos/server/$FILE_NAME
 	echo "KO_ARCHIVO"
 	exit 3
@@ -57,3 +57,16 @@ echo "$DATA" > server/dragon.txt
 
 echo "10. CHECK OK ARCHIVO_SAVED - Enviando OK_ARCHIVO_SAVED"
 echo "OK_ARCHIVO_SAVED" | nc $IP $PORT
+
+DATA=`nc -l $PORT`
+FILE_MD5_RECEIVED=`echo "$DATA" | cut -d ' ' -f 2`
+
+FILE_MD5_CALCULATED=$(md5sum /home/enti/Sistemas_Operativos/Server/$FILE_NAME | cut -d ' ' -f 1)
+
+if [ "$FILE_MD5_RECEIVED" != "$FILE_MD5_CALCULATED" ]
+then
+	echo "ERROR 4: MD5 del archivo no coincide"
+ 	echo "KO_FILE_MD5" | nc $IP $PORT
+  	ecit 4
+fi
+echo "OK_FILE_MD5" | nc $IP $PORT

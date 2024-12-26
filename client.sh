@@ -25,7 +25,8 @@ fi
 echo "OK"
 echo "5. ENVIO DE ARCHIVO"
 FILENAME="dragon.txt"
-echo "FILE_NAME "$FILENAME | nc $IP_SERVER $PORT
+MD5SUM=$(echo -n "$FILENAME" | md5sum | cut -d ' ' -f 1)  # Generamos el hash MD5 del nombre del archivo
+echo "FILE_NAME "$FILENAME $MD5SUM | nc $IP_SERVER $PORT
 DATA=`nc -l $PORT`
 echo "7. COMPROVANDO RESPUESTA"
 if [ "$DATA" != "OK_FILE_NAME" ]

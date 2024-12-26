@@ -24,8 +24,7 @@ then
 fi
 echo "OK"
 echo "5. ENVIO DE ARCHIVO"
-FILENAME="dragon.txt"
-MD5SUM=$(echo -n "$FILENAME" | md5sum | cut -d ' ' -f 1)  # Generamos el hash MD5 del nombre del archivo
+FILENAME="dragon.txt"  
 echo "FILE_NAME "$FILENAME $MD5SUM | nc $IP_SERVER $PORT
 DATA=`nc -l $PORT`
 echo "7. COMPROVANDO RESPUESTA"
@@ -44,5 +43,17 @@ if [ "$DATA" != "OK_ARCHIVO_SAVED" ]
 then 
 	echo "ERROR 4: Los datos se enviaron incorrectamente"
 	exit 4
+fi
+echo "OK"
+
+MD5SUM=$(echo -n "$FILENAME" | md5sum | cut -d ' ' -f 1)
+echo "FILE_MD5 $FILE_MD5" | nc $IP_SERVER $PORT
+
+DATA=`nc -l $PORT`
+echo "13.COMPROBANDO RESPUESTA DEL MD5"
+if [ "$DATA" != "OK_FILE_MD5" ]
+then 
+	echo "EROOR 5: El MD5 no coincide o hubo un error"
+ 	exit 5
 fi
 echo "OK"

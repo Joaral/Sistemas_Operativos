@@ -19,6 +19,8 @@ echo "OK_HEADER" | nc $IP $PORT
 
 DATA=`nc -l $PORT`
 FILE_NAME=`echo "$DATA" | cut -d ' ' -f 1`
+MD5SUM_RECEIVED=`echo "$DATA" | cut -d ' ' -f 3`  
+
 
 if [ "$FILE_NAME" != "FILE_NAME" ]
 then
@@ -26,6 +28,15 @@ then
 	echo "KO_FILE_NAME" | nc $IP $PORT
 	exit 2
 fi 
+MD5SUM_GENERATED=$(echo -n "$FILE_NAME" | md5sum | cut -d ' ' -f 1)
+
+if [ "$MD5SUM_RECEIVED" != "$MD5SUM_GENERATED" ]
+then
+    echo "ERROR 3: El MD5 del nombre de archivo es incorrecto"
+    echo "KO_FILE_NAME_MD5" | nc $IP $PORT
+    exit 3
+fi
+
 echo "6. CHECK OK FILE_NAME - Enviando OK_FILE_NAME"
 echo "OK_FILE_NAME" | nc $IP $PORT
 

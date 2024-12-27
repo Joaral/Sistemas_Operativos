@@ -48,7 +48,7 @@ fi
 echo "OK"
 
 MD5SUM=$(md5sum client/$FILENAME | cut -d ' ' -f 1)
-echo "FILE_MD5 $FILE_MD5" | nc $IP_SERVER $PORT
+echo "FILE_MD5 $MD5SUM" | nc $IP_SERVER $PORT
 
 DATA=`nc $IP_SERVER $PORT`
 echo "13.COMPROBANDO RESPUESTA DEL MD5"

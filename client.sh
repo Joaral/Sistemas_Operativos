@@ -13,7 +13,7 @@ echo "Cliente de Dragón magia Abuelita Miedo 2022"
 echo "1. ENVÍO DE CABECERA"
 
 echo "DMAM $IP" | nc $IP_SERVER $PORT
-DATA=`nc -l $PORT`
+DATA=`nc $IP_SERVER $PORT`
 # SI DATA ES DIFERENTE A OK_HEADER, MENSAJE
 # DE ERROR Y EXIT 1
 echo "4.COMPROVANDO RESPUESTA"
@@ -27,7 +27,7 @@ echo "5. ENVIO DE ARCHIVO"
 FILENAME="dragon.txt"  
 MD5SUM=$(md5sum client/$FILENAME | cut -d ' ' -f 1)
 echo "FILE_NAME "$FILENAME $MD5SUM | nc $IP_SERVER $PORT
-DATA=`nc -l $PORT`
+DATA=`nc $IP_SERVER $PORT`
 echo "7. COMPROVANDO RESPUESTA"
 if [ "$DATA" != "OK_FILE_NAME" ]
 then 
@@ -38,7 +38,7 @@ echo "OK"
 echo "8. ENVIO CONTENIDO ARCHIVO"
 echo $FILENAME | nc $IP_SERVER $PORT
 cat client/$FILENAME | nc $IP_SERVER $PORT
-DATA=`nc -l $PORT`
+DATA=`nc $IP_SERVER $PORT`
 echo "11. COMPROVANDO RESPUESTA"
 if [ "$DATA" != "OK_ARCHIVO_SAVED" ]
 then 
@@ -50,7 +50,7 @@ echo "OK"
 MD5SUM=$(md5sum client/$FILENAME | cut -d ' ' -f 1)
 echo "FILE_MD5 $FILE_MD5" | nc $IP_SERVER $PORT
 
-DATA=`nc -l $PORT`
+DATA=`nc $IP_SERVER $PORT`
 echo "13.COMPROBANDO RESPUESTA DEL MD5"
 if [ "$DATA" != "OK_FILE_MD5" ]
 then 

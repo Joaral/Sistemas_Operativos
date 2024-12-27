@@ -67,6 +67,6 @@ if [ "$FILE_MD5_RECEIVED" != "$FILE_MD5_CALCULATED" ]
 then
 	echo "ERROR 4: MD5 del archivo no coincide"
  	echo "KO_FILE_MD5" | nc $IP $PORT
-  	ecit 4
+  	exit 4
 fi
 echo "OK_FILE_MD5" | nc $IP $PORT

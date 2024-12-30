@@ -7,7 +7,7 @@ then
 	exit 0
 fi
 IP_SERVER=$1
-IP=`ip a |grep "scope global" |xargs |cut -d " " -f 2 | cut -d "/" -f 1`
+IP=`ip a |grep "scope global" | xargs |cut -d " " -f 2 | cut -d "/" -f 1`
 PORT="2022"
 echo "Cliente de Dragón magia Abuelita Miedo 2022"
 echo "1. ENVÍO DE CABECERA"
@@ -25,7 +25,7 @@ fi
 echo "OK"
 echo "5. ENVIO DE ARCHIVO"
 FILENAME="dragon.txt"  
-MD5SUM=$(md5sum client/$FILENAME | cut -d ' ' -f 1)
+MD5SUM= $(md5sum client/$FILENAME | cut -d ' ' -f 1)
 echo "FILE_NAME "$FILENAME $MD5SUM | nc $IP_SERVER $PORT
 DATA=`nc $IP_SERVER $PORT`
 echo "7. COMPROVANDO RESPUESTA"

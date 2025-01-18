@@ -46,15 +46,15 @@ then
 	exit 4
 fi
 echo "OK"
-
+echo "12. ENVIO DE MD5"
 MD5SUM=$(md5sum client/$FILENAME | cut -d ' ' -f 1)
 echo "FILE_MD5 $MD5SUM" | nc $IP_SERVER $PORT
 
 DATA=`nc $IP_SERVER $PORT`
-echo "13.COMPROBANDO RESPUESTA DEL MD5"
+echo "15.COMPROBANDO RESPUESTA DEL MD5"
 if [ "$DATA" != "OK_FILE_MD5" ]
 then 
-	echo "EROOR 5: El MD5 no coincide o hubo un error"
+	echo "ERROR 5: El MD5 no coincide o hubo un error"
  	exit 5
 fi
 echo "OK"

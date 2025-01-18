@@ -41,14 +41,14 @@ echo "6. CHECK OK FILE_NAME - Enviando OK_FILE_NAME"
 echo "OK_FILE_NAME" | nc $IP $PORT
 
 FILE_NAME=`nc -l $PORT`
-mkdir /home/enti/Sistemas_Operativos/server/$FILE_NAME
+mkdir /home/enti/mis/server/$FILE_NAME
 
 DATA=`nc -l $PORT`
 
 if [ "$DATA" == "" ]
 then
 	echo "ERROR 4: ARCHIVO VACÍO"
- 	rm -r /home/enti/Sistemas_Operativos/server/$FILE_NAME
+ 	rm -r /home/enti/mis/server/$FILE_NAME
 	echo "KO_ARCHIVO"
 	exit 3
 fi
@@ -59,14 +59,17 @@ echo "10. CHECK OK ARCHIVO_SAVED - Enviando OK_ARCHIVO_SAVED"
 echo "OK_ARCHIVO_SAVED" | nc $IP $PORT
 
 DATA=`nc -l $PORT`
+echo "13. CALCULATING MD5"
 FILE_MD5_RECEIVED=`echo "$DATA" | cut -d ' ' -f 2`
 
-FILE_MD5_CALCULATED=$(md5sum /home/enti/Sistemas_Operativos/Server/$FILE_NAME | cut -d ' ' -f 1)
+FILE_MD5_CALCULATED=$(md5sum /home/enti/mis/Server/$FILE_NAME | cut -d ' ' -f 1)
 
 if [ "$FILE_MD5_RECEIVED" != "$FILE_MD5_CALCULATED" ]
 then
 	echo "ERROR 4: MD5 del archivo no coincide"
+ 	rm -r /home/enti/mis/server/$FILE_NAME
  	echo "KO_FILE_MD5" | nc $IP $PORT
   	exit 4
 fi
+echo "14. CHECK OK MD5_VERIFIED - Enviando OK_FILE_MD5"
 echo "OK_FILE_MD5" | nc $IP $PORT
